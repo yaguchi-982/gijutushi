@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2E5A45">
+<title>基礎科目 演習ノート｜技術士第一次試験</title>
+<style>
+:root{
+  color-scheme: light;
+  --paper:#F4F6F2;
+  --grid:rgba(46,90,69,.08);
+  --surface:#FFFFFF;
+  --ink:#1D2823;
+  --ink2:#56655D;
+  --rule:#C9D3CC;
+  --cover:#2E5A45;
+  --cover-ink:#EFF5F1;
+  --ok:#2E7550;
+  --ok-bg:#E2EFE7;
+  --shu:#C43E26;
+  --shu-bg:#FAE8E3;
+  --focus:#1F6FB2;
+  --on-bg:#2E5A45;
+  --on-border:#2E5A45;
+  --on-ink:#EFF5F1;
+  --primary-ink:#FFFFFF;
+  --pfill:#2E5A45;
+  --mincho:"BIZ UDPMincho","Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+  --gothic:"BIZ UDPGothic","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Yu Gothic","Meiryo","Noto Sans JP",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#131916;
+    --grid:rgba(170,210,190,.05);
+    --surface:#1A221E;
+    --ink:#E2E9E4;
+    --ink2:#9BABA2;
+    --rule:#34423B;
+    --cover:#1E3a2D;
+    --cover-ink:#E2EEE7;
+    --ok:#7CC79E;
+    --ok-bg:#1D3328;
+    --shu:#F0806A;
+    --shu-bg:#3A221D;
+    --focus:#7DB8F0;
+    --on-bg:#1D3328;
+    --on-border:#7CC79E;
+    --on-ink:#E2E9E4;
+    --primary-ink:#1A0F0C;
+    --pfill:#7CC79E;
+  }
+}
+:root[data-theme="dark"]{
+    color-scheme: dark;
+    --paper:#131916;
+    --grid:rgba(170,210,190,.05);
+    --surface:#1A221E;
+    --ink:#E2E9E4;
+    --ink2:#9BABA2;
+    --rule:#34423B;
+    --cover:#1E3a2D;
+    --cover-ink:#E2EEE7;
+    --ok:#7CC79E;
+    --ok-bg:#1D3328;
+    --shu:#F0806A;
+    --shu-bg:#3A221D;
+    --focus:#7DB8F0;
+    --on-bg:#1D3328;
+    --on-border:#7CC79E;
+    --on-ink:#E2E9E4;
+    --primary-ink:#1A0F0C;
+    --pfill:#7CC79E;
+  }
+*{box-sizing:border-box}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--cover)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+html,body{margin:0}
+body{
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:20px 20px;
+  color:var(--ink);
+  font-family:var(--gothic);
+  font-size:16px;
+  line-height:1.7;
+  min-height:100%;
+}
+.opt,.chip,.ghost,.primary{touch-action:manipulation}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* 表紙帯 */
+.cover{background:var(--cover);color:var(--cover-ink)}
+.cover-inner{max-width:760px;margin:0 auto;padding:18px 20px 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cover h1{margin:0;font-size:1.35rem;font-weight:700;letter-spacing:.04em}
+.cover .sub{font-size:.8rem;opacity:.8;margin:0}
+.count{text-align:right}
+.count b{font-size:2rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.count small{display:block;font-size:.78rem;opacity:.85}
+
+main{max-width:760px;margin:0 auto;padding:24px 20px 64px}
+section{margin-bottom:32px}
+h2{font-size:1.02rem;margin:0 0 12px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.muted{color:var(--ink2);font-size:.85rem}
+
+/* 群別の成績 */
+.summary{display:flex;gap:24px;flex-wrap:wrap;margin:0 0 14px;font-size:.9rem}
+.summary b{font-size:1.15rem;font-variant-numeric:tabular-nums}
+.grp{display:grid;grid-template-columns:11.5em 1fr 6.5em;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule)}
+.grp .name{font-size:.92rem}
+.grp .name span{color:var(--ink2);font-size:.8rem;margin-right:.4em}
+.bar{height:10px;background:var(--rule);border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);border-radius:5px}
+.grp .num{text-align:right;font-size:.85rem;font-variant-numeric:tabular-nums}
+@media (max-width:560px){
+  .grp{grid-template-columns:1fr 5.5em}
+  .grp .bar{grid-column:1 / -1;grid-row:2}
+}
+
+/* 出題設定 */
+.field{margin-bottom:16px}
+.field > .label{font-size:.85rem;color:var(--ink2);margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  border:1.5px solid var(--rule);background:var(--surface);
+  padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.9rem;
+}
+.chip[aria-pressed="true"]{border-color:var(--on-border);background:var(--on-bg);color:var(--on-ink)}
+.chip:disabled{opacity:.45;cursor:not-allowed}
+.chip small{opacity:.75;margin-left:.3em;font-variant-numeric:tabular-nums}
+
+.primary{
+  display:inline-block;border:0;border-radius:8px;cursor:pointer;
+  background:var(--shu);color:var(--primary-ink);font-weight:700;padding:12px 22px;font-size:1rem;
+}
+.primary:disabled{background:var(--rule);color:var(--ink2);cursor:not-allowed}
+.ghost{border:1.5px solid var(--rule);background:transparent;border-radius:8px;padding:9px 16px;cursor:pointer}
+.link{border:0;background:none;color:var(--ink2);text-decoration:underline;cursor:pointer;padding:0;font-size:.85rem}
+.warn{color:var(--shu);font-size:.85rem;margin-top:8px}
+
+/* 出題画面 */
+.qbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.progress{font-variant-numeric:tabular-nums;font-weight:700}
+.ptrack{height:4px;background:var(--rule);border-radius:2px;margin-bottom:20px;overflow:hidden}
+.ptrack i{display:block;height:100%;background:var(--pfill)}
+.flag[aria-pressed="true"]{border-color:#C9A227;background:#F6E7A8;color:#3B2F00}
+
+.sheet{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:22px 22px 18px;position:relative}
+.gtag{font-size:.8rem;color:var(--ink2);margin:0 0 10px}
+.qtext{font-family:var(--mincho);font-size:1.08rem;line-height:1.95;margin:0 0 18px;padding-right:8px}
+.opts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.opt{
+  width:100%;text-align:left;display:flex;gap:10px;align-items:flex-start;
+  background:transparent;border:1.5px solid var(--rule);border-radius:6px;
+  padding:10px 12px;cursor:pointer;font-family:var(--mincho);font-size:1rem;line-height:1.7;
+}
+.opt:hover:not(:disabled){border-color:var(--ink2)}
+.opt .n{font-family:var(--gothic);font-weight:700;flex:none;width:1.4em}
+.opt:disabled{cursor:default}
+.opt.is-correct{border-color:var(--ok);background:var(--ok-bg)}
+.opt.is-wrong{border-color:var(--shu);background:var(--shu-bg)}
+
+.mark{position:absolute;right:10px;top:-16px;width:92px;height:92px;fill:none;stroke:var(--shu);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.88;pointer-events:none}
+.mark path{stroke-dasharray:100;stroke-dashoffset:100;animation:draw .42s ease-out forwards}
+.mark path + path{animation-delay:.2s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){ .mark path{animation:none;stroke-dashoffset:0} }
+
+.explain{margin-top:18px;border-left:4px solid var(--shu);padding:4px 0 4px 14px}
+.explain .verdict{font-weight:700;margin:0 0 4px}
+.explain p{margin:0}
+.next-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap}
+.keys{font-size:.78rem;color:var(--ink2)}
+@media (hover:none){ .keys{display:none} }
+@media (max-width:560px){
+  main{padding:18px 14px 48px}
+  .sheet{padding:18px 14px 14px}
+  .cover-inner{padding:14px 14px 12px}
+  .mark{width:72px;height:72px;right:4px;top:-12px}
+  .next-row .primary{width:100%}
+  .actions .primary,.actions .ghost{flex:1 1 100%}
+}
+
+/* 結果 */
+.score{font-size:2.6rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;margin:0}
+.score small{font-size:1rem;font-weight:400;color:var(--ink2);margin-left:.4em}
+.miss{border-bottom:1px solid var(--rule);padding:10px 0}
+.miss .q{font-family:var(--mincho);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:2px 0}
+.miss .a{font-size:.85rem}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+
+footer.note{border-top:1px solid var(--rule);padding-top:14px;font-size:.8rem;color:var(--ink2)}
+footer.note p{margin:0 0 6px}
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="cover-inner">
+    <div>
+      <h1>基礎科目 演習ノート</h1>
+      <p class="sub">技術士第一次試験</p>
+    </div>
+    <div class="count" id="countdown"></div>
+  </div>
+</header>
+<main id="app"></main>
+
+<script>
+const GROUPS = {
+  1: "設計・計画",
+  2: "情報・論理",
+  3: "解析",
+  4: "材料・化学・バイオ",
+  5: "環境・エネルギー・技術"
+};
+const NUMS = ["①","②","③","④","⑤"];
+
+/* 過去の出題傾向をもとにしたオリジナル練習問題（a は正解の添字 0〜4） */
+const QUESTIONS = [
+/* 1群 設計・計画 */
+{id:"1-01",g:1,q:"信頼度がそれぞれ0.9である3つの要素を直列に接続したシステムの信頼度はどれか。",
+ o:["0.271","0.729","0.810","0.900","0.999"],a:1,
+ e:"直列系はすべての要素が正常なときだけ動作するので、信頼度は各要素の積になる。0.9×0.9×0.9＝0.729。直列の要素が増えるほど全体の信頼度は下がる。"},
+{id:"1-02",g:1,q:"信頼度0.8の要素2つを並列に接続したシステム（どちらか一方が動作すればよい）の信頼度はどれか。",
+ o:["0.64","0.80","0.90","0.96","0.99"],a:3,
+ e:"並列系は「全部が同時に故障する確率」を1から引く。1−(1−0.8)²＝1−0.04＝0.96。"},
+{id:"1-03",g:1,q:"信頼度0.9の要素2つを並列にした部分に、信頼度0.9の要素1つを直列に接続したシステムの信頼度はどれか。",
+ o:["0.729","0.810","0.891","0.981","0.999"],a:2,
+ e:"まず並列部分を1つの要素にまとめる：1−0.1²＝0.99。これと0.9を直列にして 0.99×0.9＝0.891。直並列は「並列部分を先にまとめる」のが定石。"},
+{id:"1-04",g:1,q:"ある設備の平均故障間隔（MTBF）が900時間、平均修復時間（MTTR）が100時間であるとき、アベイラビリティ（稼働率）はどれか。",
+ o:["0.10","0.80","0.90","0.99","9.0"],a:2,
+ e:"アベイラビリティ＝MTBF÷(MTBF＋MTTR)＝900÷1000＝0.90。"},
+{id:"1-05",g:1,q:"故障率が一定で λ＝0.002［1/時間］である機器の平均故障間隔（MTBF）はどれか。",
+ o:["0.002時間","50時間","200時間","500時間","2000時間"],a:3,
+ e:"故障率が一定のとき MTBF＝1/λ＝1/0.002＝500時間。"},
+{id:"1-06",g:1,q:"製品Aは1個あたり利益3万円、製品Bは1個あたり利益2万円である。材料の制約が A＋B≦4、機械時間の制約が 2A＋B≦6（A, B≧0、実数でよい）のとき、利益の最大値はどれか。",
+ o:["8万円","9万円","10万円","11万円","12万円"],a:2,
+ e:"線形計画法では、制約で囲まれた領域の頂点で最大になる。頂点は (0,0)→0、(3,0)→9、(0,4)→8、2式の交点 (2,2)→3×2＋2×2＝10。最大は10万円。"},
+{id:"1-07",g:1,q:"QC七つ道具に含まれないものはどれか。",
+ o:["パレート図","特性要因図","管理図","連関図","散布図"],a:3,
+ e:"QC七つ道具はパレート図、特性要因図、ヒストグラム、散布図、管理図、チェックシート、グラフ（層別）。連関図は言語データを扱う「新QC七つ道具」の一つ。"},
+{id:"1-08",g:1,q:"ユニバーサルデザインの7原則に含まれないものはどれか。",
+ o:["誰でも公平に利用できる","使い方が単純で直感的にわかる","失敗やミスに対して寛大である","少ない身体的負担で利用できる","見た目の美しさを最優先する"],a:4,
+ e:"7原則は、公平な利用、利用の柔軟性、単純で直感的な利用、認知できる情報、失敗に対する寛大さ、少ない身体的努力、接近・利用のための大きさと空間。審美性は含まれない。"},
+{id:"1-09",g:1,q:"「利用者が誤った操作をしても危険な状態にならない、または誤操作そのものができないようにする」設計の考え方はどれか。",
+ o:["フェールセーフ","フールプルーフ","冗長設計","ディレーティング","タンパープルーフ"],a:1,
+ e:"フールプルーフは人の誤操作への対策。フェールセーフは「故障したときに安全側に止まる」設計で、混同しやすいので対で覚える。冗長設計は予備系を持たせること、ディレーティングは定格より余裕をもって使うこと。"},
+{id:"1-10",g:1,q:"窓口に客が平均4人/時でランダムに到着し、平均5人/時の能力で1人ずつ処理される（M/M/1モデル）。系内にいる客の平均人数はどれか。",
+ o:["0.8人","1.25人","3.2人","4人","5人"],a:3,
+ e:"利用率 ρ＝λ/μ＝4/5＝0.8。系内平均人数 L＝ρ/(1−ρ)＝0.8/0.2＝4人。ρが1に近づくと急激に混雑する。"},
+
+/* 2群 情報・論理 */
+{id:"2-01",g:2,q:"10進数の25を2進数で表したものはどれか。",
+ o:["10011","10101","11001","11010","11100"],a:2,
+ e:"25＝16＋8＋1 なので、16の位・8の位・1の位が1 → 11001。2で割り続けて余りを下から読む方法でもよい。"},
+{id:"2-02",g:2,q:"10進数の0.625を2進数で表したものはどれか。",
+ o:["0.011","0.101","0.110","0.0101","0.1001"],a:1,
+ e:"0.625＝0.5＋0.125＝2⁻¹＋2⁻³ なので 0.101。小数部は2を掛けて整数部を上から読む（0.625→1.25→0.5→1.0 で 1,0,1）。"},
+{id:"2-03",g:2,q:"2進数 10110110 を16進数で表したものはどれか。",
+ o:["6B","96","A6","B6","D6"],a:3,
+ e:"下位から4桁ずつ区切る：1011｜0110 → B（＝11）と 6 → B6。"},
+{id:"2-04",g:2,q:"論理式 NOT (A AND B) と常に等しいものはどれか。",
+ o:["(NOT A) AND (NOT B)","(NOT A) OR (NOT B)","A OR B","(NOT A) OR B","A AND (NOT B)"],a:1,
+ e:"ド・モルガンの法則：NOT(A AND B)＝(NOT A) OR (NOT B)、NOT(A OR B)＝(NOT A) AND (NOT B)。否定を分配するとANDとORが入れ替わる。"},
+{id:"2-05",g:2,q:"中置記法の式 (A＋B)×(C−D) を逆ポーランド記法（後置記法）で表したものはどれか。",
+ o:["AB＋CD−×","A＋B×C−D","ABCD＋−×","AB×CD＋−","AB＋C×D−"],a:0,
+ e:"演算子を2つの被演算子の後ろに置く。(A＋B)→AB＋、(C−D)→CD−、その積→AB＋CD−×。⑤は ((A＋B)×C)−D を表す。"},
+{id:"2-06",g:2,q:"公開鍵暗号方式で、AさんがBさんに秘密のメッセージを送るとき、Aさんが暗号化に使う鍵はどれか。",
+ o:["Aさんの秘密鍵","Aさんの公開鍵","Bさんの公開鍵","Bさんの秘密鍵","AさんとBさんの共通鍵"],a:2,
+ e:"受信者（B）の公開鍵で暗号化し、B本人だけが持つ秘密鍵で復号する。「受け取る人の鍵で閉じる」と覚える。"},
+{id:"2-07",g:2,q:"デジタル署名で、送信者が署名を生成するときに使う鍵はどれか。",
+ o:["送信者の秘密鍵","送信者の公開鍵","受信者の公開鍵","受信者の秘密鍵","認証局の公開鍵"],a:0,
+ e:"署名は送信者の秘密鍵で作り、受信者は送信者の公開鍵で検証する。暗号化（受信者の公開鍵を使う）とは向きが逆なのでセットで覚える。"},
+{id:"2-08",g:2,q:"32通りの事象を区別するために最低限必要なビット数はどれか。",
+ o:["4ビット","5ビット","6ビット","16ビット","32ビット"],a:1,
+ e:"nビットで2ⁿ通りを表せる。2⁵＝32なので5ビット。"},
+{id:"2-09",g:2,q:"金融機関などを装ったメールで偽のWebサイトに誘導し、IDやパスワードを入力させて盗み取る攻撃はどれか。",
+ o:["フィッシング","ランサムウェア","DoS攻撃","SQLインジェクション","ゼロデイ攻撃"],a:0,
+ e:"ランサムウェアはデータを暗号化して身代金を要求、DoS攻撃は大量のアクセスでサービスを停止させる、SQLインジェクションは不正なSQL文でデータベースを操作、ゼロデイ攻撃は修正プログラム公開前の脆弱性を突く攻撃。"},
+{id:"2-10",g:2,q:"要素数 n のソート済み配列に対する二分探索の計算量（オーダー）はどれか。",
+ o:["O(1)","O(log n)","O(n)","O(n log n)","O(n²)"],a:1,
+ e:"1回の比較で探索範囲が半分になるので、log₂n 回程度で済む。先頭から順に調べる線形探索は O(n)。"},
+{id:"2-11",g:2,q:"100人に調査したところ、Aを好む人が60人、Bを好む人が50人、両方を好む人が30人だった。AもBも好まない人は何人か。",
+ o:["10人","20人","30人","40人","80人"],a:1,
+ e:"AまたはBを好む人＝60＋50−30＝80人。どちらも好まない人は100−80＝20人。ベン図を描くと確実。"},
+
+/* 3群 解析 */
+{id:"3-01",g:3,q:"関数 f(x)＝x³ の x＝2 における微分係数はどれか。",
+ o:["4","6","8","12","24"],a:3,
+ e:"f′(x)＝3x² なので f′(2)＝3×4＝12。"},
+{id:"3-02",g:3,q:"関数 f(x) の1階微分を、刻み幅 h を用いて2次精度で近似する中心差分の式はどれか。",
+ o:["{f(x＋h)−f(x)}/h","{f(x)−f(x−h)}/h","{f(x＋h)−f(x−h)}/(2h)","{f(x＋h)−2f(x)＋f(x−h)}/h²","{f(x＋h)＋f(x−h)}/(2h)"],a:2,
+ e:"①前進差分・②後退差分は1次精度、③中心差分は2次精度。④は2階微分の中心差分近似。"},
+{id:"3-03",g:3,q:"定積分 ∫₀¹ (2x＋1) dx の値はどれか。",
+ o:["1","1.5","2","2.5","3"],a:2,
+ e:"原始関数は x²＋x。x＝1 を代入して 1＋1＝2、x＝0 では0なので答えは2。"},
+{id:"3-04",g:3,q:"ばね定数 k のばね2本を直列につないだときの合成ばね定数はどれか。",
+ o:["k/4","k/2","k","2k","4k"],a:1,
+ e:"直列は 1/K＝1/k＋1/k より K＝k/2（柔らかくなる）。並列は K＝k＋k＝2k。電気抵抗の合成とは逆の形なので注意。"},
+{id:"3-05",g:3,q:"長さ2mの棒を引っ張ったところ1mm伸びた。このときのひずみはどれか。",
+ o:["2×10⁻⁴","5×10⁻⁵","5×10⁻⁴","2×10⁻³","5×10⁻³"],a:2,
+ e:"ひずみ＝伸び÷元の長さ＝1mm÷2000mm＝0.0005＝5×10⁻⁴。単位をそろえるのがポイント。"},
+{id:"3-06",g:3,q:"断面積100mm²の棒に1kNの引張荷重が作用している。棒に生じる引張応力はどれか。",
+ o:["0.1 MPa","1 MPa","10 MPa","100 MPa","1000 MPa"],a:2,
+ e:"σ＝P/A＝1000N÷100mm²＝10N/mm²＝10MPa（1N/mm²＝1MPa）。"},
+{id:"3-07",g:3,q:"長さ3mの片持ちはりの自由端に2kNの集中荷重が作用している。固定端に生じる曲げモーメントの大きさはどれか。",
+ o:["1.5 kN·m","3 kN·m","5 kN·m","6 kN·m","12 kN·m"],a:3,
+ e:"片持ちはりの先端荷重では固定端で最大になり、M＝PL＝2×3＝6kN·m。"},
+{id:"3-08",g:3,q:"スパン4mの単純支持はりの中央に8kNの集中荷重が作用している。最大曲げモーメントはどれか。",
+ o:["2 kN·m","4 kN·m","8 kN·m","16 kN·m","32 kN·m"],a:2,
+ e:"支点反力は左右とも4kN。中央の曲げモーメントは 4kN×2m＝8kN·m（公式 M＝PL/4）。"},
+{id:"3-09",g:3,q:"2行2列の行列（1行目が 2, 1、2行目が 3, 4）の行列式の値はどれか。",
+ o:["−5","2","5","8","11"],a:2,
+ e:"1行目 a, b、2行目 c, d の行列式は ad−bc。2×4−1×3＝5。"},
+{id:"3-10",g:3,q:"ベクトル a＝(1, 2, 3) と b＝(3, 0, k) が直交するとき、k の値はどれか。",
+ o:["−3","−1","0","1","3"],a:1,
+ e:"直交 ⇔ 内積が0。1×3＋2×0＋3×k＝0 より k＝−1。"},
+
+/* 4群 材料・化学・バイオ */
+{id:"4-01",g:4,q:"水酸化ナトリウム（NaOH、モル質量40g/mol）4.0gを水に溶かして500mLとした溶液のモル濃度はどれか。",
+ o:["0.05 mol/L","0.1 mol/L","0.2 mol/L","0.4 mol/L","2.0 mol/L"],a:2,
+ e:"物質量＝4.0÷40＝0.10mol。濃度＝0.10mol÷0.500L＝0.20mol/L。"},
+{id:"4-02",g:4,q:"0.01mol/Lの塩酸（完全に電離するものとする）のpHはどれか。",
+ o:["1","2","7","12","13"],a:1,
+ e:"[H⁺]＝0.01＝10⁻²mol/L なので pH＝−log₁₀[H⁺]＝2。"},
+{id:"4-03",g:4,q:"過マンガン酸カリウム KMnO₄ 中のマンガン（Mn）の酸化数はどれか。",
+ o:["＋2","＋4","＋5","＋6","＋7"],a:4,
+ e:"Kは＋1、Oは−2。化合物全体で0になるので 1＋x＋(−2)×4＝0 → x＝＋7。"},
+{id:"4-04",g:4,q:"ステンレス鋼の耐食性に主に寄与している元素はどれか。",
+ o:["クロム（Cr）","炭素（C）","マンガン（Mn）","硫黄（S）","リン（P）"],a:0,
+ e:"クロムが表面に薄い酸化皮膜（不動態皮膜）を作って腐食を防ぐ。一般にCrを約10.5%以上含む鋼をステンレス鋼という。"},
+{id:"4-05",g:4,q:"次の金属のうち、密度が最も小さいものはどれか。",
+ o:["鉄","銅","アルミニウム","チタン","ニッケル"],a:2,
+ e:"おおよその密度（g/cm³）はアルミニウム2.7、チタン4.5、鉄7.9、ニッケル8.9、銅9.0。"},
+{id:"4-06",g:4,q:"DNAの二重らせんで、アデニン（A）と相補的に対をなす塩基はどれか。",
+ o:["アデニン","グアニン","シトシン","チミン","ウラシル"],a:3,
+ e:"DNAではAとT、GとCが水素結合で対をなす。A–Tは2本、G–Cは3本の水素結合。"},
+{id:"4-07",g:4,q:"DNAには含まれず、RNAに含まれる塩基はどれか。",
+ o:["アデニン","グアニン","シトシン","チミン","ウラシル"],a:4,
+ e:"RNAではチミン（T）の代わりにウラシル（U）が使われる。糖もDNAはデオキシリボース、RNAはリボースと異なる。"},
+{id:"4-08",g:4,q:"mRNAの塩基配列に従ってアミノ酸をつなぎ、タンパク質を合成する過程はどれか。",
+ o:["複製","転写","翻訳","逆転写","スプライシング"],a:2,
+ e:"DNA→mRNAが転写、mRNA→タンパク質が翻訳（リボソームで行われる）。複製はDNAのコピー、逆転写はRNA→DNA。"},
+{id:"4-09",g:4,q:"mRNA上の連続する3塩基（コドン）の組合せは全部で何通りか。",
+ o:["3通り","12通り","20通り","64通り","81通り"],a:3,
+ e:"塩基は4種類なので 4³＝64通り。これが約20種類のアミノ酸と終止コドンに対応する。"},
+{id:"4-10",g:4,q:"酵素に関する記述として、最も不適切なものはどれか。",
+ o:["酵素の主成分はタンパク質である","酵素は特定の基質にだけ作用する（基質特異性）","酵素には反応速度が最大となる最適温度がある","酵素は反応の前後で変化し、反応によって消費される","高温にさらすと立体構造が変わり活性を失うことがある"],a:3,
+ e:"酵素は触媒なので、反応の前後で自身は変化せず繰り返し働く。高温での失活はタンパク質の変性による。"},
+
+/* 5群 環境・エネルギー・技術 */
+{id:"5-01",g:5,q:"京都議定書で削減対象とされた温室効果ガスに含まれないものはどれか。",
+ o:["二酸化炭素（CO₂）","メタン（CH₄）","一酸化二窒素（N₂O）","六ふっ化硫黄（SF₆）","クロロフルオロカーボン（CFC）"],a:4,
+ e:"CFC（特定フロン）はオゾン層破壊物質としてモントリオール議定書で規制される。京都議定書の対象はCO₂、CH₄、N₂O、HFC、PFC、SF₆（第二約束期間でNF₃を追加）。"},
+{id:"5-02",g:5,q:"日本が2021年に表明した、2030年度の温室効果ガス削減目標（2013年度比）はどれか。",
+ o:["26%","40%","46%","50%","80%"],a:2,
+ e:"2030年度に2013年度比46%削減を目指し、さらに50%の高みに挑戦するとしている。26%はそれ以前の目標。2050年カーボンニュートラルと合わせて押さえる。"},
+{id:"5-03",g:5,q:"循環型社会形成推進基本法に定められた処理の優先順位で、最も優先されるものはどれか。",
+ o:["発生抑制（リデュース）","再使用（リユース）","再生利用（マテリアルリサイクル）","熱回収（サーマルリサイクル）","適正処分"],a:0,
+ e:"優先順位は 発生抑制→再使用→再生利用→熱回収→適正処分。「そもそもごみを出さない」が最優先。"},
+{id:"5-04",g:5,q:"環境マネジメントシステムに関する国際規格はどれか。",
+ o:["ISO 9001","ISO 14001","ISO 27001","ISO 45001","ISO 50001"],a:1,
+ e:"9001は品質、14001は環境、27001は情報セキュリティ、45001は労働安全衛生、50001はエネルギーのマネジメントシステム。"},
+{id:"5-05",g:5,q:"次のうち、二次エネルギーに分類されるものはどれか。",
+ o:["石炭","原油","天然ガス","電力","水力"],a:3,
+ e:"一次エネルギーは自然から直接得るもの（化石燃料、水力、太陽光など）。電力・都市ガス・ガソリンのように一次エネルギーを変換・加工したものが二次エネルギー。"},
+{id:"5-06",g:5,q:"消費電力1kWで3kWの熱を供給するヒートポンプの成績係数（COP）はどれか。",
+ o:["0.33","1","2","3","4"],a:3,
+ e:"COP＝得られる熱量÷投入エネルギー＝3÷1＝3。外気などの熱をくみ上げるので、COPは1を超えるのが普通。"},
+{id:"5-07",g:5,q:"液化天然ガス（LNG）の主成分はどれか。",
+ o:["メタン","エタン","プロパン","ブタン","水素"],a:0,
+ e:"LNGの主成分はメタン（CH₄）で、約−162℃に冷却して液化する。LPG（液化石油ガス）の主成分はプロパン・ブタン。"},
+{id:"5-08",g:5,q:"18世紀後半に分離凝縮器などで蒸気機関を大幅に改良し、熱効率を高めて産業革命を推し進めた人物はどれか。",
+ o:["トーマス・ニューコメン","ジェームズ・ワット","ジョージ・スチーブンソン","ヘンリー・ベッセマー","トーマス・エジソン"],a:1,
+ e:"ニューコメンは先に実用的な大気圧機関を開発（1712年頃）。ワットが分離凝縮器で効率を大幅に改善。スチーブンソンは蒸気機関車、ベッセマーは転炉製鋼法。"},
+{id:"5-09",g:5,q:"次の日本人と業績の組合せのうち、最も適切なものはどれか。",
+ o:["八木秀次：自動織機の発明","本多光太郎：KS鋼（永久磁石鋼）の発明","豊田佐吉：指向性アンテナの発明","高峰譲吉：真珠の養殖","御木本幸吉：アドレナリンの結晶化"],a:1,
+ e:"正しくは、八木秀次は八木・宇田アンテナ、豊田佐吉は自動織機、高峰譲吉はアドレナリンの結晶化（タカジアスターゼも）、御木本幸吉は真珠の養殖。"},
+{id:"5-10",g:5,q:"国連の持続可能な開発目標（SDGs）の「目標（ゴール）」の数はどれか。",
+ o:["8","12","17","20","169"],a:2,
+ e:"17のゴールと169のターゲットで構成され、達成期限は2030年。8はその前身MDGsのゴール数。"},
+{id:"5-11",g:5,q:"製品の原料採取から製造、輸送、使用、廃棄までの全段階の環境負荷を定量的に評価する手法はどれか。",
+ o:["ライフサイクルアセスメント（LCA）","環境影響評価（環境アセスメント）","カーボンオフセット","ゼロエミッション","グリーン購入"],a:0,
+ e:"LCAはISO 14040シリーズで規格化されている。環境アセスメントは大規模事業の実施前に環境への影響を調査・予測・評価する制度で、対象が異なる。"}
+];
+const QMAP = Object.fromEntries(QUESTIONS.map(q => [q.id, q]));
+
+/* 記録の保存（このブラウザ内のみ） */
+const STORE_KEY = "gijutsushi-kiso-note-v1";
+let store = { stats: {}, flags: [] };
+let storageOK = true;
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw){
+      const d = JSON.parse(raw);
+      store = { stats: d.stats || {}, flags: Array.isArray(d.flags) ? d.flags : [] };
+    }
+  }catch(e){ storageOK = false; }
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(store)); }
+  catch(e){ storageOK = false; }
+}
+
+const settings = { groups: new Set([1,2,3,4,5]), scope: "all", count: 10 };
+let session = null;
+let resetArmed = false;
+const app = document.getElementById("app");
+
+function esc(s){
+  return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+function shuffle(a){
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function isFlagged(id){ return store.flags.includes(id); }
+function scopeFilter(q, scope){
+  const s = store.stats[q.id];
+  if(scope === "wrong") return !!s && s.last === false;
+  if(scope === "unseen") return !s;
+  if(scope === "flag") return isFlagged(q.id);
+  return true;
+}
+function pool(){
+  return QUESTIONS.filter(q => settings.groups.has(q.g) && scopeFilter(q, settings.scope));
+}
+
+function renderCountdown(){
+  const el = document.getElementById("countdown");
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const exam = new Date(2026, 10, 22);
+  const d = Math.round((exam - today) / 86400000);
+  if(d > 0) el.innerHTML = `<small>本番まで</small><b>${d}</b> 日<small>11月22日（日）基礎科目 15:00〜16:00</small>`;
+  else if(d === 0) el.innerHTML = `<b>本番当日</b><small>基礎科目 15:00〜16:00</small>`;
+  else el.innerHTML = `<small>試験日を過ぎました</small>`;
+}
+
+/* ホーム */
+function renderHome(){
+  session = null;
+  const total = QUESTIONS.length;
+  const seen = QUESTIONS.filter(q => store.stats[q.id]).length;
+  const mastered = QUESTIONS.filter(q => store.stats[q.id] && store.stats[q.id].last).length;
+  const wrongNow = QUESTIONS.filter(q => store.stats[q.id] && store.stats[q.id].last === false).length;
+
+  let rows = "";
+  for(const g of [1,2,3,4,5]){
+    const qs = QUESTIONS.filter(q => q.g === g);
+    const ok = qs.filter(q => store.stats[q.id] && store.stats[q.id].last).length;
+    const pct = Math.round(ok / qs.length * 100);
+    rows += `<div class="grp">
+      <div class="name"><span>${g}群</span>${GROUPS[g]}</div>
+      <div class="bar" role="img" aria-label="${GROUPS[g]} ${qs.length}問中${ok}問正解済み"><i style="width:${pct}%"></i></div>
+      <div class="num">${ok} / ${qs.length}問</div>
+    </div>`;
+  }
+
+  const groupChips = [1,2,3,4,5].map(g =>
+    `<button class="chip" data-act="group" data-g="${g}" aria-pressed="${settings.groups.has(g)}">${g}群 ${GROUPS[g]}</button>`
+  ).join("");
+
+  const scopes = [["all","すべて"],["wrong","間違えた問題"],["unseen","未解答"],["flag","付箋"]];
+  const scopeChips = scopes.map(([k, label]) => {
+    const n = QUESTIONS.filter(q => settings.groups.has(q.g) && scopeFilter(q, k)).length;
+    return `<button class="chip" data-act="scope" data-v="${k}" aria-pressed="${settings.scope === k}">${label}<small>${n}</small></button>`;
+  }).join("");
+
+  const counts = [[10,"10問"],[20,"20問"],[0,"すべて"]];
+  const countChips = counts.map(([v, label]) =>
+    `<button class="chip" data-act="count" data-v="${v}" aria-pressed="${settings.count === v}">${label}</button>`
+  ).join("");
+
+  const p = pool();
+  const n = settings.count ? Math.min(settings.count, p.length) : p.length;
+  let warn = "";
+  if(settings.groups.size === 0) warn = "群を1つ以上選んでください。";
+  else if(p.length === 0) warn = "条件に合う問題がありません。対象を「すべて」に切り替えてください。";
+
+  app.innerHTML = `
+  <section>
+    <h2>群別の成績</h2>
+    <div class="summary">
+      <div>解いた問題　<b>${seen}</b> / ${total}</div>
+      <div>正解済み　<b>${mastered}</b></div>
+      <div>要復習　<b>${wrongNow}</b></div>
+    </div>
+    ${rows}
+    <p class="muted">最後に解いたとき正解した問題の数です。全問正解済みになるまで「間違えた問題」を繰り返すのがおすすめです。</p>
+  </section>
+
+  <section>
+    <h2>出題する</h2>
+    <div class="field"><div class="label">群</div><div class="chips">${groupChips}</div></div>
+    <div class="field"><div class="label">対象</div><div class="chips">${scopeChips}</div></div>
+    <div class="field"><div class="label">問題数（ランダム順）</div><div class="chips">${countChips}</div></div>
+    <button class="primary" data-act="start" ${warn ? "disabled" : ""}>${warn ? "出題する" : `${n}問を出題する`}</button>
+    ${warn ? `<p class="warn">${warn}</p>` : ""}
+  </section>
+
+  <footer class="note">
+    <p>収録問題は過去の出題傾向をもとにした練習問題です（過去問そのものではありません）。全${total}問。</p>
+    <p>${storageOK ? "記録はこのブラウザ内に保存されます。" : "このブラウザでは記録を保存できないため、ページを閉じると成績が消えます。"}</p>
+    <p><button class="link" data-act="reset">${resetArmed ? "もう一度押すと、解答記録と付箋をすべて消去します" : "記録をすべて消去する"}</button></p>
+  </footer>`;
+}
+
+/* 出題 */
+function startSession(ids){
+  session = { queue: ids, idx: 0, results: [], answered: false, choice: null };
+  renderQuiz();
+}
+function markSVG(ok){
+  return ok
+    ? `<svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><path pathLength="100" d="M62 16 C 90 14, 108 36, 106 62 C 104 90, 80 108, 56 106 C 30 104, 12 82, 15 56 C 18 34, 36 18, 66 20"/></svg>`
+    : `<svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><path pathLength="100" d="M26 24 L96 98"/><path pathLength="100" d="M96 24 L24 96"/></svg>`;
+}
+function renderQuiz(){
+  const id = session.queue[session.idx];
+  const q = QMAP[id];
+  const pos = session.idx + 1, len = session.queue.length;
+  const answered = session.answered;
+  const ok = answered && session.choice === q.a;
+
+  const opts = q.o.map((t, i) => {
+    let cls = "opt";
+    if(answered && i === q.a) cls += " is-correct";
+    if(answered && i === session.choice && i !== q.a) cls += " is-wrong";
+    return `<li><button class="${cls}" data-act="answer" data-i="${i}" ${answered ? "disabled" : ""}><span class="n">${NUMS[i]}</span><span>${esc(t)}</span></button></li>`;
+  }).join("");
+
+  const isLast = pos === len;
+  app.innerHTML = `
+  <div class="qbar">
+    <button class="ghost" data-act="quit">中断する</button>
+    <div class="progress" aria-live="polite">${pos} / ${len}</div>
+    <button class="ghost flag" data-act="flag" aria-pressed="${isFlagged(id)}">付箋</button>
+  </div>
+  <div class="ptrack"><i style="width:${(session.idx + (answered ? 1 : 0)) / len * 100}%"></i></div>
+  <article class="sheet">
+    ${answered ? markSVG(ok) : ""}
+    <p class="gtag">${q.g}群　${GROUPS[q.g]}</p>
+    <p class="qtext">${esc(q.q)}</p>
+    <ol class="opts">${opts}</ol>
+    ${answered ? `
+    <div class="explain" role="status">
+      <p class="verdict">${ok ? "正解" : "不正解"}　正解は${NUMS[q.a]}</p>
+      <p>${esc(q.e)}</p>
+    </div>` : ""}
+  </article>
+  <div class="next-row">
+    <span class="keys">数字キー 1〜5 で解答、Enter で次へ</span>
+    ${answered ? `<button class="primary" data-act="next" id="nextBtn">${isLast ? "結果を見る" : "次の問題へ"}</button>` : ""}
+  </div>`;
+  if(answered){ const b = document.getElementById("nextBtn"); if(b) b.focus(); }
+}
+function answer(i){
+  if(!session || session.answered) return;
+  const id = session.queue[session.idx];
+  const q = QMAP[id];
+  const ok = i === q.a;
+  session.answered = true;
+  session.choice = i;
+  session.results.push({ id, choice: i, ok });
+  const s = store.stats[id] || { n: 0, c: 0, last: false };
+  s.n += 1; if(ok) s.c += 1; s.last = ok;
+  store.stats[id] = s;
+  save();
+  renderQuiz();
+}
+function next(){
+  if(!session || !session.answered) return;
+  if(session.idx + 1 >= session.queue.length){ renderResult(); return; }
+  session.idx += 1;
+  session.answered = false;
+  session.choice = null;
+  renderQuiz();
+  window.scrollTo(0, 0);
+}
+
+/* 結果 */
+function renderResult(){
+  const r = session.results;
+  const okN = r.filter(x => x.ok).length;
+  const misses = r.filter(x => !x.ok);
+  const byG = {};
+  r.forEach(x => {
+    const g = QMAP[x.id].g;
+    byG[g] = byG[g] || { n: 0, c: 0 };
+    byG[g].n += 1; if(x.ok) byG[g].c += 1;
+  });
+  const gRows = Object.keys(byG).sort().map(g => {
+    const pct = Math.round(byG[g].c / byG[g].n * 100);
+    return `<div class="grp">
+      <div class="name"><span>${g}群</span>${GROUPS[g]}</div>
+      <div class="bar" role="img" aria-label="正答率${pct}%"><i style="width:${pct}%"></i></div>
+      <div class="num">${byG[g].c} / ${byG[g].n}問</div>
+    </div>`;
+  }).join("");
+  const missList = misses.map(x => {
+    const q = QMAP[x.id];
+    return `<div class="miss">
+      <div class="muted">${q.g}群　${GROUPS[q.g]}</div>
+      <p class="q">${esc(q.q)}</p>
+      <div class="a">あなたの解答 ${NUMS[x.choice]}　／　正解 ${NUMS[q.a]} ${esc(q.o[q.a])}</div>
+    </div>`;
+  }).join("");
+
+  app.innerHTML = `
+  <section>
+    <h2>結果</h2>
+    <p class="score">${okN} / ${r.length}<small>問正解（${Math.round(okN / r.length * 100)}%）</small></p>
+  </section>
+  <section>
+    <h2>群別</h2>
+    ${gRows}
+  </section>
+  ${misses.length ? `<section><h2>間違えた問題</h2>${missList}</section>` : ""}
+  <div class="actions">
+    ${misses.length ? `<button class="primary" data-act="retry">間違えた${misses.length}問をもう一度</button>` : ""}
+    <button class="ghost" data-act="home">ホームに戻る</button>
+  </div>`;
+  session.missIds = misses.map(x => x.id);
+  session.done = true;
+}
+
+/* 操作 */
+app.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if(!b) return;
+  const act = b.dataset.act;
+  if(act !== "reset") resetArmed = false;
+  if(act === "group"){
+    const g = Number(b.dataset.g);
+    settings.groups.has(g) ? settings.groups.delete(g) : settings.groups.add(g);
+    renderHome();
+  } else if(act === "scope"){
+    settings.scope = b.dataset.v; renderHome();
+  } else if(act === "count"){
+    settings.count = Number(b.dataset.v); renderHome();
+  } else if(act === "start"){
+    const ids = shuffle(pool().map(q => q.id));
+    const n = settings.count ? Math.min(settings.count, ids.length) : ids.length;
+    if(n > 0) startSession(ids.slice(0, n));
+  } else if(act === "answer"){
+    answer(Number(b.dataset.i));
+  } else if(act === "next"){
+    next();
+  } else if(act === "flag"){
+    const id = session.queue[session.idx];
+    if(isFlagged(id)) store.flags = store.flags.filter(x => x !== id);
+    else store.flags.push(id);
+    save();
+    b.setAttribute("aria-pressed", String(isFlagged(id)));
+  } else if(act === "quit"){
+    renderHome();
+  } else if(act === "retry"){
+    startSession(shuffle(session.missIds.slice()));
+  } else if(act === "home"){
+    renderHome();
+  } else if(act === "reset"){
+    if(resetArmed){
+      store = { stats: {}, flags: [] };
+      save();
+      resetArmed = false;
+    } else {
+      resetArmed = true;
+    }
+    renderHome();
+  }
+});
+document.addEventListener("keydown", e => {
+  if(!session || session.done) return;
+  if(e.target.closest && e.target.closest("input,textarea")) return;
+  if(!session.answered && /^[1-5]$/.test(e.key)){
+    e.preventDefault();
+    answer(Number(e.key) - 1);
+  } else if(session.answered && e.key === "Enter" && !(e.target.dataset && e.target.dataset.act)){
+    e.preventDefault();
+    next();
+  }
+});
+
+load();
+renderCountdown();
+renderHome();
+</script>
+</body>
+</html>
